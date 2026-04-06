@@ -215,4 +215,149 @@ eg:- <p></p>
     1. Better SEO
     2. accessibility
     3. Clean code
+
+===========================================================================================
+
+#CSS basic
+
+CSS (Cascading Style Sheets) is used to style your Html
+Html - structure
+css - Design (color, layout, spacing)
+
+#how to add css
+
+1)Inline CSS
+:-  <p style="color: red";>Hello</P>
+
+2)Internal CSS
+:-  <Style>
+        p {
+            color: blue;
+        }
+    </style>
+
+3) External CSS
+:-  <link rel="stylesheet" href="style.css">
+
+
+#common Properties
+
+color & text
+
+    color: red;
+    font-size : 18px;
+    font-weight: bold;
+    text-align: center;
+
+
+Box model
+
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid black;
+
+order = content -> padding -> border -> margin
+
+
+Layout & display
+
+    display: block;
+    display: Inline;
+    display: flex;
+
+positioning
+
+    position: relative;
+    position: absolute;
+    position: fixed;
+    position: sticky;
+
+Selectors (How CSS targets elements)
+    for elements
+        p { }
     
+    for class
+        .box{}
+    
+    for id 
+        #header{}
+
+
+#flexbox 
+
+What is Flexbox ?
+:-  it is 1D layout system (row or Column)
+
+used to:
+    align items
+    create responsive layouts
+    control spacing easily
+
+flex-direction
+    flex-direction: row;
+    flex-direction: column;
+
+row -> left to right
+column -> top to buttom
+
+
+justify-content (main axis)
+
+    justify-content: center;
+    justify-content: space-between;
+    justify-content: space-around;
+    justify-content: flex-start;
+    justify-content: flex-end;
+
+control horizontal alignment (by default)
+
+align-items
+    align-items: center;
+    align-items: flex-start;
+    align-items: flex-end;
+    align-items: stretch;
+    
+control vertical alignment
+
+flex-wrap
+    flex-wrap: wrap;
+allow items to move to next line
+
+gap (easy spacing)
+    gap: 10px;
+
+add space between items
+    
+
+===============================================================================
+
+#responsive design
+
+what is Responsive Design?
+:-  it means website adjusts to different screen sizes
+    -mobile
+    -tablet
+    -laptop
+
+1)viewport 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+2)Media Queries
+
+    @media (max-width: 600px) {
+        body {
+            background: red;
+        }
+    }
+
+    @media (max-width: 900px){
+        body{
+            background: blue;
+        }
+    }
+
+| Device | Width     |
+| ------ | --------- |
+| Mobile | ≤ 600px   |
+| Tablet | 601–768px |
+| Laptop | ≥ 1024px  |

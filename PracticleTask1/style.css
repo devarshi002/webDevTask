@@ -1,0 +1,64 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 30px;
+  background: black;
+  color: white;
+}
+
+.navbar a {
+  color: white;
+  margin-left: 15px;
+  text-decoration: none;
+}
+
+/* Hero Section */
+.hero {
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: lightblue;
+  text-align: center;
+}
+
+.hero button {
+  margin-top: 10px;
+  padding: 10px 20px;
+}
+
+/* Form Section */
+.form-section {
+  padding: 40px;
+  text-align: center;
+}
+
+.form-section form {
+  display: flex;
+  flex-direction: column;
+  max-width: 300px;
+  margin: auto;
+}
+
+.form-section input,
+.form-section textarea {
+  margin: 10px 0;
+  padding: 10px;
+}
+
+/* Footer */
+.footer {
+  background: black;
+  color: white;
+  text-align: center;
+  padding: 15px;
+}
