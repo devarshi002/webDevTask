@@ -121,3 +121,73 @@ URL -> DNS -> SERVER REQUEST -> RESPONSE -> RENDER -> DISPLAY
 
     http -> not secure
     https -> secure(encrypted)
+
+
+
+HTML basics
+:-  html tags are used to define elements on a webpage
+    they tell the browser what to display and how
+
+    <p> Hello World </p>
+
+
+    basic structure of HTMl page
+
+    <!DOCTPYE html>
+    <html>
+    <head>
+        <title>My Page</title>
+    </head>
+    <body>
+        <h1>Hello</h1>
+        <p>This is a paragraph</p>
+    </body>
+    </html>
+
+
+* Common HTML tags
+<h1>Heading</h1>
+<p>paragraph</p>
+<b>Bold</b>
+<i>Italic</i>
+<u>Underline</u>
+
+
+* link & Image tags
+<a href="https://google.com">GO to google</a>
+<img src="image.jpg" alt="img" />
+
+* list tags
+<ul>
+    <li>Item 1</li>
+    <li>Item 2</li>
+</ul>
+
+<ol>
+    <li>first</li>
+    <li>second</li>
+</ol>
+
+
+*layout & structure tags
+
+<div>container</div>
+<Header>Header</Header>
+<footer>Footer</footer>
+<section>section</section>
+
+*form tags
+<form>
+    <input type="text" placeholder="Enter name" />
+    <input type="password" placeholder="password" />
+    <button> Submit </button>
+</form>
+
+types of tags
+1)paired tags
+eg:- <p></p>
+
+2)self-closing tags
+<img />
+<br/>
+<hr/>
