@@ -1,0 +1,123 @@
+1)what is website
+:-  A website is a collection of web pages written in HTML. To make it accessible worldwide, 
+    it must be stored on a computer connected to the Internet 24/7. These computers are called web servers.
+
+    component of website
+
+    1) frontend 2)backend 3)databases 4)api calls 5)hosting and domain
+
+    Think of a website like a restaurant 🍽️:
+
+    Frontend → Menu + dining area (what you see)
+    Backend → Kitchen (where work happens)
+    Database → Storage (ingredients)
+    API → Waiter (communication)
+    Hosting → Building/location
+
+
+2)How Browser works
+:-  i) we have to enter URL
+    ii)DNS lookup (domain name service) browser ask where is this website it convert url into ip address
+    iii)request sent to Server via http/https request server receive it
+    iv)server respond with html css js file
+    v)rendering 
+    :- parse HTML - dOM 
+       parse Css 
+       combine - render tree
+       layout calculate positions
+       paint - show on screen
+
+    vi)JavaScript Execution
+    :- js runs using engine like V8
+        make page interactive
+            Clicks
+            Animations
+            API calls
+
+
+full flow 
+URL -> DNS -> SERVER REQUEST -> RESPONSE -> RENDER -> DISPLAY
+
+
+3) What is Frontend vs Backend?
+:-  Frontend
+    it is visual part of website - everything you can see and Clicks
+    eg:-
+        buttons, form, text
+        Images, videos
+        Navigation Menu
+        Animations
+    Technologies:
+        html-structure
+        css-design
+        JavaScript-logic
+
+    Backend
+    it is the brain of the website it works behind the scenes
+
+    what it does
+    -handle login/signup
+    -store & retrives data
+    -processes request
+    -business logic
+
+    Technologies
+    Node.js
+    python
+
+
+4)what is clien-Server
+:-  client server is a model where:
+    client request something
+    server provide that something
+
+    client(request Sender)
+    :-A client is usually 
+        -web browser like google chrome
+        -mobile app
+        -any device requesting data
+    
+    server(response Provider)
+    :-A server is 
+        -A computer/system that store data
+        -processes request
+        -Sends responses
+
+    how it works
+    1)client send request
+    2)server receive request
+    3)server processes it
+    4)server send response
+    5)client display result
+
+
+5)HTTP basics
+:- HTTP (HyperText Transfer Protocol) is the rule/system that allows communication between:
+    -client
+    -server
+    it defines how request and responses are sent
+
+    method -> what you want to do
+    URL -> where to go
+    Headers -> extra info
+    Body ->data
+
+    Http Methods(Very Important)
+    GET -> Fetch data
+    POST -> Send data
+    PUT  -> Updata data
+    DELETE -> Remove Data
+
+    HTTP response(from server)
+    -Status code 
+    200 -> Success
+    404 -> Not Found
+    500 -> Server Error
+    301 -> Redirect 
+
+
+
+
+
+    http -> not secure
+    https -> secure(encrypted)
