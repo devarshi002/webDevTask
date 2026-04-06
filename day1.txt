@@ -191,3 +191,28 @@ eg:- <p></p>
 <img />
 <br/>
 <hr/>
+
+
+# What is Semantic Html ?
+:-  Semantic html means using meaningful tags that describle the content clearly
+    instead of using <div>, we use tags like:
+        <Header>
+        <footer>
+        <article>
+        <section>
+    this tags tell the browser + dev what the content means
+
+    eg:
+    <header>Top section</header>
+    <nav>Navigation links</nav>
+    <main>Main content</main>
+    <section>Section</section>
+    <article>Article</article>
+    <aside>Sidebar</aside>
+    <footer>Bottom section</footer>
+
+    why Semantic Html is Important
+    1. Better SEO
+    2. accessibility
+    3. Clean code
+    
