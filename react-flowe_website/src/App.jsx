@@ -7,6 +7,8 @@ import Home from './pages/Home'
 import Shop from './pages/Shop'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
+import Checkout from './pages/Checkout'
+import OrderSuccess from './pages/OrderSuccess'
 
 function ProtectedRoute({ children }) {
   const { user } = useAuth()
@@ -24,11 +26,12 @@ function AppRoutes() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/checkout" element={
           <ProtectedRoute>
-            <div className="min-h-screen bg-[#fdf6f0] flex items-center justify-center">
-              <p className="font-[Cormorant_Garamond] text-2xl text-[#5c3d35]">
-                Checkout coming soon 🌸
-              </p>
-            </div>
+            <Checkout />
+          </ProtectedRoute>
+        } />
+        <Route path="/order-success" element={
+          <ProtectedRoute>
+            <OrderSuccess />
           </ProtectedRoute>
         } />
       </Routes>
