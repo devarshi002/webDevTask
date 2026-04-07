@@ -1,0 +1,26 @@
+body {
+    text-align: center;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+h1 {
+    font-size: 50px;
+}
+
+button {
+    padding: 10px 20px;
+    margin: 5px;
+    font-size: 18px;
+    border: 2px solid black;
+}
+#inc:hover {
+    background-color: greenyellow;
+}
+
+#dec:hover {
+    background-color: red;
+}
+
+#reset:hover {
+    background-color: yellow;
+}
