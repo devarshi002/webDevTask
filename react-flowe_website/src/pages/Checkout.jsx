@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useCart } from "../cart/CartContext";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "../lib/supabase";
+import { supabase } from "../lib/supabase"; // update path if different
 
 export default function Checkout() {
   const { cartItems, totalPrice, clearCart } = useCart();
@@ -34,12 +34,13 @@ export default function Checkout() {
 
     const options = {
       key: import.meta.env.VITE_RAZORPAY_KEY_ID,
-      amount: finalTotal * 100,
+      amount: finalTotal * 100, // paise
       currency: "INR",
       name: "Petal & Co.",
       description: "Fresh Flowers Order",
       image: "/logo.png",
 
+      // Force all payment methods including UPI
       method: {
         upi: true,
         card: true,
@@ -69,29 +70,24 @@ export default function Checkout() {
       theme: { color: "#c4957a" },
 
       handler: async function (response) {
-        const orderPayload = {
-          payment_id: response.razorpay_payment_id,
-          customer_name: form.name,
-          customer_email: form.email,
-          customer_phone: form.phone,
-          address: `${form.address}, ${form.city} - ${form.pincode}`,
-          items: cartItems,
-          total: finalTotal,
-          status: "paid",
-        };
-
-        console.log("Inserting order:", orderPayload);
-
-        const { data, error } = await supabase
-          .from("orders")
-          .insert([orderPayload]);
-
-        console.log("Supabase response:", { data, error });
+        const { error } = await supabase.from("orders").insert([
+          {
+            payment_id: response.razorpay_payment_id,
+            customer_name: form.name,
+            customer_email: form.email,
+            customer_phone: form.phone,
+            address: `${form.address}, ${form.city} - ${form.pincode}`,
+            items: cartItems,
+            total: finalTotal,
+            status: "paid",
+            created_at: new Date(),
+          },
+        ]);
 
         setLoading(false);
 
         if (error) {
-          console.error("Supabase error:", JSON.stringify(error, null, 2));
+          console.error("Supabase error:", error);
           alert("Payment done but order save failed. Contact support.");
           return;
         }
@@ -124,6 +120,7 @@ export default function Checkout() {
     rzp.open();
   };
 
+  // Empty cart guard
   if (cartItems.length === 0) {
     return (
       <div className="min-h-screen bg-[#fdf6f0] font-[Jost] flex flex-col
@@ -171,8 +168,7 @@ export default function Checkout() {
                   value={form[name]}
                   onChange={handleChange}
                   className="border border-[#e8d5c4] bg-white px-4 py-2.5 rounded-sm
-                    text-sm text-[#5c3d35] outline-none focus:border-[#c4957a]
-                    transition-colors"
+                    text-sm text-[#5c3d35] outline-none focus:border-[#c4957a] transition-colors"
                 />
               </div>
             ))}
@@ -190,10 +186,8 @@ export default function Checkout() {
             {cartItems.map(item => (
               <div key={item.id} className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div
-                    className="w-10 h-10 rounded-sm shrink-0"
-                    style={{ background: item.bg }}
-                  />
+                  <div className="w-10 h-10 rounded-sm shrink-0"
+                    style={{ background: item.bg }} />
                   <div>
                     <p className="text-[13px] text-[#5c3d35]">{item.name}</p>
                     <p className="text-[11px] text-[#b09088]">Qty: {item.quantity}</p>
@@ -205,6 +199,7 @@ export default function Checkout() {
               </div>
             ))}
 
+            {/* Delivery */}
             <div className="border-t border-[#e8d5c4] pt-3 flex justify-between">
               <span className="text-[13px] text-[#7a5c52]">Delivery</span>
               <span className="text-[13px] text-[#5c3d35]">
@@ -212,6 +207,7 @@ export default function Checkout() {
               </span>
             </div>
 
+            {/* Total */}
             <div className="flex justify-between">
               <span className="font-medium text-[#5c3d35]">Total</span>
               <span className="font-[Cormorant_Garamond] text-xl text-[#5c3d35]">
@@ -220,16 +216,16 @@ export default function Checkout() {
             </div>
           </div>
 
+          {/* Free delivery nudge */}
           {totalPrice < 999 && (
             <p className="text-[11px] text-[#b09088] tracking-wide text-center mb-4">
-              Add{" "}
-              <span className="text-[#c4957a] font-medium">
+              Add <span className="text-[#c4957a] font-medium">
                 ₹{999 - totalPrice}
-              </span>{" "}
-              more for free delivery 🚚
+              </span> more for free delivery 🚚
             </p>
           )}
 
+          {/* Pay Button */}
           <button
             onClick={handlePayment}
             disabled={loading}
@@ -246,6 +242,7 @@ export default function Checkout() {
             🔒 Secured by Razorpay · UPI, Cards, Netbanking, Wallets accepted
           </p>
 
+          {/* Test mode helper */}
           <div className="mt-6 p-4 bg-rose-50 border border-rose-200 rounded-sm">
             <p className="text-[11px] font-medium text-[#8b5e52] mb-2 tracking-wide uppercase">
               Test Mode Credentials
@@ -256,7 +253,6 @@ export default function Checkout() {
             <p className="text-[11px] text-[#b09088] mt-1">UPI: success@razorpay</p>
           </div>
         </div>
-
       </div>
     </div>
   );
