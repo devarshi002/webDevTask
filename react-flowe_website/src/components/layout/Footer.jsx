@@ -1,4 +1,3 @@
-// src/components/layout/Footer.jsx
 import { useState } from 'react';
 
 const shopLinks = ['All Flowers','Bouquets','Seasonal Picks','Subscriptions','Gift Sets','Corporate Orders'];
@@ -11,13 +10,8 @@ export default function Footer() {
     <footer className="bg-[#3d2820] font-[Jost]">
 
       {/* Trust Bar */}
-      <div className="bg-[#2e1e18] flex items-center justify-center gap-10 py-4">
-        {[
-          ['Fresh, handpicked daily'],
-          ['Same-day delivery'],
-          ['100% satisfaction guarantee'],
-          ['Secure checkout'],
-        ].map(([text]) => (
+      <div className="bg-[#2e1e18] flex flex-wrap items-center justify-center gap-4 md:gap-10 py-4 px-4">
+        {['Fresh, handpicked daily','Same-day delivery','100% satisfaction guarantee','Secure checkout'].map(text => (
           <span key={text} className="text-[11px] tracking-widest uppercase text-[#6b4e44] flex items-center gap-2">
             <span className="text-[#c4957a]">✦</span> {text}
           </span>
@@ -25,22 +19,23 @@ export default function Footer() {
       </div>
 
       {/* Main Grid */}
-      <div className="max-w-7xl mx-auto px-10 py-16 grid grid-cols-[1.8fr_1fr_1fr_1.4fr] gap-12">
+      <div className="max-w-7xl mx-auto px-6 md:px-10 py-10 md:py-16
+        grid grid-cols-2 md:grid-cols-[1.8fr_1fr_1fr_1.4fr] gap-8 md:gap-12">
 
-        {/* Brand */}
-        <div>
-          <div className="font-serif text-[28px] text-[#f5e6de] mb-4 tracking-wide">
+        {/* Brand — full width on mobile */}
+        <div className="col-span-2 md:col-span-1">
+          <div className="font-serif text-[24px] md:text-[28px] text-[#f5e6de] mb-4 tracking-wide">
             ✿ Petal <em className="italic text-[#c4957a]">&amp; Co.</em>
           </div>
-          <p className="text-[13px] font-light leading-[1.85] text-[#a08878] max-w-[240px] mb-7">
+          <p className="text-[13px] font-light leading-[1.85] text-[#a08878] max-w-[240px] mb-6">
             We believe every flower tells a story. From our garden to your doorstep — with love, care, and a little magic.
           </p>
           <div className="flex gap-2.5">
-            {['Instagram','Pinterest','Facebook','WhatsApp'].map(s => (
-              <button key={s} className="w-[34px] h-[34px] rounded-full border border-[#5c3d35]
+            {['I','P','F','W'].map((s, i) => (
+              <button key={i} className="w-[34px] h-[34px] rounded-full border border-[#5c3d35]
                 flex items-center justify-center text-[#a08878] hover:border-[#c4957a]
                 hover:text-[#c4957a] hover:bg-[#c4957a14] transition-all text-xs">
-                {s[0]}
+                {s}
               </button>
             ))}
           </div>
@@ -48,31 +43,39 @@ export default function Footer() {
 
         {/* Shop */}
         <div>
-          <p className="text-[11px] font-medium tracking-[0.18em] uppercase text-[#f5e6de] mb-5">Shop</p>
-          <ul className="flex flex-col gap-3">
+          <p className="text-[11px] font-medium tracking-[0.18em] uppercase text-[#f5e6de] mb-4 md:mb-5">Shop</p>
+          <ul className="flex flex-col gap-2.5 md:gap-3">
             {shopLinks.map(l => (
-              <li key={l}><a href="#" className="text-[13px] font-light text-[#a08878] hover:text-[#c4957a] transition-colors">{l}</a></li>
+              <li key={l}>
+                <a href="#" className="text-[12px] md:text-[13px] font-light text-[#a08878]
+                  hover:text-[#c4957a] transition-colors">{l}</a>
+              </li>
             ))}
           </ul>
         </div>
 
         {/* Help */}
         <div>
-          <p className="text-[11px] font-medium tracking-[0.18em] uppercase text-[#f5e6de] mb-5">Help</p>
-          <ul className="flex flex-col gap-3">
+          <p className="text-[11px] font-medium tracking-[0.18em] uppercase text-[#f5e6de] mb-4 md:mb-5">Help</p>
+          <ul className="flex flex-col gap-2.5 md:gap-3">
             {helpLinks.map(l => (
-              <li key={l}><a href="#" className="text-[13px] font-light text-[#a08878] hover:text-[#c4957a] transition-colors">{l}</a></li>
+              <li key={l}>
+                <a href="#" className="text-[12px] md:text-[13px] font-light text-[#a08878]
+                  hover:text-[#c4957a] transition-colors">{l}</a>
+              </li>
             ))}
           </ul>
         </div>
 
-        {/* Newsletter */}
-        <div>
-          <p className="text-[11px] font-medium tracking-[0.18em] uppercase text-[#f5e6de] mb-5">Stay in Bloom</p>
+        {/* Newsletter — full width on mobile */}
+        <div className="col-span-2 md:col-span-1">
+          <p className="text-[11px] font-medium tracking-[0.18em] uppercase text-[#f5e6de] mb-4 md:mb-5">
+            Stay in Bloom
+          </p>
           <p className="text-[13px] font-light leading-relaxed text-[#a08878] mb-5">
             Get early access to seasonal drops, care tips, and exclusive offers.
           </p>
-          <div className="flex flex-col gap-2.5">
+          <div className="flex flex-col gap-2.5 max-w-sm">
             <input
               type="email"
               value={email}
@@ -90,16 +93,20 @@ export default function Footer() {
         </div>
       </div>
 
-      <hr className="border-[#5c3d35] mx-10" />
+      <hr className="border-[#5c3d35] mx-4 md:mx-10" />
 
       {/* Bottom Bar */}
-      <div className="max-w-7xl mx-auto px-10 py-5 flex items-center justify-between">
-        <p className="text-[12px] font-light text-[#6b4e44]">
+      <div className="max-w-7xl mx-auto px-4 md:px-10 py-5 flex flex-col md:flex-row
+        items-center justify-between gap-3">
+        <p className="text-[12px] font-light text-[#6b4e44] text-center md:text-left">
           © 2026 <span className="text-[#c4957a]">Petal &amp; Co.</span> — All rights reserved. Made with ✿ in Bengaluru
         </p>
-        <ul className="flex gap-6 list-none">
+        <ul className="flex gap-4 md:gap-6 list-none flex-wrap justify-center">
           {['Privacy Policy','Terms of Use','Cookie Settings'].map(l => (
-            <li key={l}><a href="#" className="text-[11px] font-light tracking-wide text-[#6b4e44] hover:text-[#c4957a] transition-colors">{l}</a></li>
+            <li key={l}>
+              <a href="#" className="text-[11px] font-light tracking-wide text-[#6b4e44]
+                hover:text-[#c4957a] transition-colors">{l}</a>
+            </li>
           ))}
         </ul>
       </div>

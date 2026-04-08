@@ -1,4 +1,3 @@
-// src/components/shop/ProductCard.jsx
 import { useState } from 'react';
 import { Heart, Plus, Check } from 'lucide-react';
 import { useCart } from "../../cart/CartContext";
@@ -6,7 +5,7 @@ import { useCart } from "../../cart/CartContext";
 export default function ProductCard({ product }) {
   const [wished, setWished] = useState(false);
   const [added, setAdded] = useState(false);
-  const {addToCart} = useCart();
+  const { addToCart } = useCart();
   const { name, tag, desc, price, oldPrice, rating, reviews, badge, bg } = product;
 
   const handleAdd = () => {
@@ -16,17 +15,13 @@ export default function ProductCard({ product }) {
   };
 
   return (
-    <div className="group w-[240px] bg-white border border-[#e8d5c4] rounded-md
+    <div className="group w-full bg-white border border-[#e8d5c4] rounded-md
       overflow-hidden hover:-translate-y-1.5 hover:shadow-[0_16px_40px_rgba(139,94,82,0.12)]
       transition-all duration-300 cursor-pointer relative">
 
       {/* Image area */}
-      <div className="relative h-[240px] overflow-hidden" style={{ background: bg }}>
-
-        {/* Flower illustration goes here */}
-        <div className="w-full h-full group-hover:scale-105 transition-transform duration-500">
-          {/* <FlowerIllustration type={product.flowerType} /> */}
-        </div>
+      <div className="relative h-[200px] md:h-[240px] overflow-hidden" style={{ background: bg }}>
+        <div className="w-full h-full group-hover:scale-105 transition-transform duration-500" />
 
         {/* Badge */}
         {badge && (
@@ -34,8 +29,7 @@ export default function ProductCard({ product }) {
             uppercase px-2.5 py-1 rounded-sm z-10
             ${badge === 'New' ? 'bg-[#c4957a] text-white' : ''}
             ${badge === 'Bestseller' ? 'bg-[#f0e0d6] text-[#8b5e52]' : ''}
-            ${badge.includes('%') ? 'bg-[#5c3d35] text-[#f5e6de]' : ''}
-          `}>
+            ${badge.includes('%') ? 'bg-[#5c3d35] text-[#f5e6de]' : ''}`}>
             {badge}
           </span>
         )}
@@ -47,12 +41,8 @@ export default function ProductCard({ product }) {
             border border-[#e8d5c4] flex items-center justify-center z-10
             hover:border-[#c4957a] transition-colors"
         >
-          <Heart
-            size={14}
-            strokeWidth={1.5}
-            className="text-[#c4957a]"
-            fill={wished ? '#c4957a' : 'none'}
-          />
+          <Heart size={14} strokeWidth={1.5} className="text-[#c4957a]"
+            fill={wished ? '#c4957a' : 'none'} />
         </button>
 
         {/* Quick add overlay */}
@@ -69,15 +59,11 @@ export default function ProductCard({ product }) {
 
       {/* Body */}
       <div className="px-4 pt-3.5 pb-4">
-        <p className="text-[10px] tracking-[0.14em] uppercase text-[#b09088] font-light mb-1">
-          {tag}
-        </p>
-        <h3 className="font-serif text-[20px] font-normal text-[#5c3d35] leading-tight mb-1">
+        <p className="text-[10px] tracking-[0.14em] uppercase text-[#b09088] font-light mb-1">{tag}</p>
+        <h3 className="font-serif text-[18px] md:text-[20px] font-normal text-[#5c3d35] leading-tight mb-1">
           {name}
         </h3>
-        <p className="text-[12px] font-light text-[#a08878] leading-relaxed mb-3">
-          {desc}
-        </p>
+        <p className="text-[12px] font-light text-[#a08878] leading-relaxed mb-3">{desc}</p>
 
         {/* Stars */}
         <div className="flex items-center gap-1 mb-3">
@@ -90,7 +76,7 @@ export default function ProductCard({ product }) {
         {/* Price + Add */}
         <div className="flex items-center justify-between">
           <div className="flex items-baseline gap-1.5">
-            <span className="font-serif text-[22px] font-medium text-[#5c3d35]">₹{price}</span>
+            <span className="font-serif text-[20px] md:text-[22px] font-medium text-[#5c3d35]">₹{price}</span>
             {oldPrice && (
               <span className="text-[13px] font-light text-[#b09088] line-through">₹{oldPrice}</span>
             )}
@@ -103,8 +89,7 @@ export default function ProductCard({ product }) {
           >
             {added
               ? <Check size={14} strokeWidth={2} color="#fff" />
-              : <Plus size={14} strokeWidth={2} color="#fff" />
-            }
+              : <Plus size={14} strokeWidth={2} color="#fff" />}
           </button>
         </div>
       </div>

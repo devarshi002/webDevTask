@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ShoppingBag, Search, LogOut, User } from "lucide-react";
+import { ShoppingBag, Search, LogOut, User, Menu, X } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../../cart/CartContext";
 import { useAuth } from "../../auth/AuthContext";
@@ -18,15 +18,16 @@ export default function Navbar() {
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const handleSignOut = async () => {
-    await signOut()
-    navigate('/')
-  }
+    await signOut();
+    navigate("/");
+  };
 
   return (
     <>
-      <header className="font-[Jost]">
+      <header className="font-[Jost] sticky top-0 z-30">
         {/* Promo Banner */}
         <div className="bg-rose-100 text-center py-2 text-xs tracking-widest text-rose-700">
           Free delivery on orders over <strong className="text-rose-500">₹999</strong>
@@ -34,17 +35,17 @@ export default function Navbar() {
         </div>
 
         {/* Main Nav */}
-        <nav className="bg-[#fdf6f0] border-b border-rose-200 px-10">
-          <div className="max-w-7xl mx-auto flex items-center justify-between h-[72px]">
+        <nav className="bg-[#fdf6f0] border-b border-rose-200 px-4 md:px-10">
+          <div className="max-w-7xl mx-auto flex items-center justify-between h-[64px] md:h-[72px]">
 
             {/* Logo */}
-            <Link to="/" className="font-[Cormorant_Garamond] text-2xl font-medium
+            <Link to="/" className="font-[Cormorant_Garamond] text-xl md:text-2xl font-medium
               text-[#8b5e52] tracking-wide cursor-pointer">
               ✿ Petal <em className="text-[#c4957a]">&amp; Co.</em>
             </Link>
 
-            {/* Links */}
-            <ul className="flex items-center gap-8 list-none">
+            {/* Desktop Links */}
+            <ul className="hidden md:flex items-center gap-8 list-none">
               {navLinks.map(({ label, path }) => (
                 <li key={label}>
                   <Link to={path} className="text-xs tracking-[0.1em] uppercase text-[#7a5c52]
@@ -57,11 +58,11 @@ export default function Navbar() {
             </ul>
 
             {/* Actions */}
-            <div className="flex items-center gap-4">
-              <button className="text-[#8b5e52] hover:text-[#c4957a] transition-colors">
+            <div className="flex items-center gap-3 md:gap-4">
+              <button className="hidden md:block text-[#8b5e52] hover:text-[#c4957a] transition-colors">
                 <Search size={18} strokeWidth={1.5} />
               </button>
-              <div className="w-px h-5 bg-rose-200" />
+              <div className="hidden md:block w-px h-5 bg-rose-200" />
 
               {/* Cart */}
               <button
@@ -77,9 +78,9 @@ export default function Navbar() {
                 )}
               </button>
 
-              {/* Auth */}
+              {/* Auth — desktop */}
               {user ? (
-                <div className="flex items-center gap-3">
+                <div className="hidden md:flex items-center gap-3">
                   <div className="w-8 h-8 rounded-full bg-[#f0e0d6] border border-[#e8d5c4]
                     flex items-center justify-center">
                     <User size={14} strokeWidth={1.5} className="text-[#8b5e52]" />
@@ -94,14 +95,61 @@ export default function Navbar() {
                   </button>
                 </div>
               ) : (
-                <Link to="/login" className="text-xs tracking-widest uppercase text-white
-                  bg-[#c4957a] hover:bg-[#b0806a] px-5 py-2 rounded-sm transition-colors">
+                <Link to="/login" className="hidden md:block text-xs tracking-widest uppercase
+                  text-white bg-[#c4957a] hover:bg-[#b0806a] px-5 py-2 rounded-sm transition-colors">
+                  Sign In
+                </Link>
+              )}
+
+              {/* Mobile hamburger */}
+              <button
+                onClick={() => setMenuOpen(!menuOpen)}
+                className="md:hidden text-[#8b5e52] hover:text-[#c4957a] transition-colors"
+              >
+                {menuOpen ? <X size={20} strokeWidth={1.5} /> : <Menu size={20} strokeWidth={1.5} />}
+              </button>
+            </div>
+          </div>
+        </nav>
+
+        {/* Mobile Menu */}
+        {menuOpen && (
+          <div className="md:hidden bg-[#fdf6f0] border-b border-rose-200 px-6 py-4 flex flex-col gap-4">
+            {navLinks.map(({ label, path }) => (
+              <Link
+                key={label}
+                to={path}
+                onClick={() => setMenuOpen(false)}
+                className="text-xs tracking-[0.1em] uppercase text-[#7a5c52]
+                  hover:text-[#c4957a] transition-colors py-1"
+              >
+                {label}
+              </Link>
+            ))}
+            <div className="border-t border-[#e8d5c4] pt-3">
+              {user ? (
+                <button
+                  onClick={() => { handleSignOut(); setMenuOpen(false); }}
+                  className="flex items-center gap-2 text-xs tracking-wide
+                    text-[#8b5e52] hover:text-[#c4957a] transition-colors"
+                >
+                  <LogOut size={14} strokeWidth={1.5} />
+                  Sign out
+                </button>
+              ) : (
+                <Link
+                  to="/login"
+                  onClick={() => setMenuOpen(false)}
+                  className="text-xs tracking-widest uppercase text-white
+                    bg-[#c4957a] hover:bg-[#b0806a] px-5 py-2 rounded-sm transition-colors
+                    inline-block"
+                >
                   Sign In
                 </Link>
               )}
             </div>
           </div>
-        </nav>
+        )}
       </header>
 
       <CartDrawer isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} />
