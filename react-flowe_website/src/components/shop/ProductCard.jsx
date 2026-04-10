@@ -64,7 +64,7 @@ export default function ProductCard({ product }) {
           className="absolute bottom-0 left-0 right-0 bg-[#3d2820]/80 text-[#f5e6de]
             text-[11px] tracking-[0.14em] uppercase py-3 z-10
             translate-y-full group-hover:translate-y-0
-            opacity-0 group-hover:opacity-100 transition-all duration-300 border-none"
+            opacity-0 group-hover:opacity-100 transition-all duration-300 border-none cursor-pointer"
         >
           Quick Add to Cart
         </button>
@@ -96,7 +96,7 @@ export default function ProductCard({ product }) {
           </div>
           <button
             onClick={handleAdd}
-            className={`w-[34px] h-[34px] rounded-full flex items-center justify-center
+            className={`w-[34px] h-[34px] rounded-full cursor-pointer flex items-center justify-center
               border-none transition-all duration-200
               ${added ? 'bg-[#5c3d35]' : 'bg-[#c4957a] hover:bg-[#b0806a] active:scale-90'}`}
           >
