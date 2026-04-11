@@ -23,36 +23,45 @@ function ProtectedRoute({ children }) {
 
 function AppRoutes() {
   return (
-    <>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/shop" element={<Shop />} />
-        <Route path="/bouquets" element={<Bouquets />} />
-        <Route path="/occasions" element={<Occasions />} />
-        <Route path="/subscriptions" element={<Subscriptions />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/admin" element={<Admin />} />
-        <Route path="/checkout" element={
-          <ProtectedRoute>
-            <Checkout />
-          </ProtectedRoute>
-        } />
-        <Route path="/order-success" element={
-          <ProtectedRoute>
-            <OrderSuccess />
-          </ProtectedRoute>
-        } />
-        <Route path="/my-orders" element={
-          <ProtectedRoute>
-            <MyOrders />
-          </ProtectedRoute>
-        } />
-      </Routes>
-      <Footer />
-    </>
+    <Routes>
+
+      {/* ── Admin — no Navbar or Footer ── */}
+      <Route path="/admin" element={<Admin />} />
+
+      {/* ── All other pages — with Navbar and Footer ── */}
+      <Route path="/*" element={
+        <>
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/shop" element={<Shop />} />
+            <Route path="/bouquets" element={<Bouquets />} />
+            <Route path="/occasions" element={<Occasions />} />
+            <Route path="/subscriptions" element={<Subscriptions />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/checkout" element={
+              <ProtectedRoute>
+                <Checkout />
+              </ProtectedRoute>
+            } />
+            <Route path="/order-success" element={
+              <ProtectedRoute>
+                <OrderSuccess />
+              </ProtectedRoute>
+            } />
+            <Route path="/my-orders" element={
+              <ProtectedRoute>
+                <MyOrders />
+              </ProtectedRoute>
+            } />
+          </Routes>
+          <Footer />
+        </>
+      } />
+
+    </Routes>
   )
 }
 
