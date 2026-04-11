@@ -12,6 +12,9 @@ import OrderSuccess from './pages/OrderSuccess'
 import MyOrders from './pages/MyOrders'
 import Bouquets from './pages/Bouquets'
 import Occasions from './pages/Occasions'
+import Subscriptions from './pages/Subscriptions'
+import About from './pages/About'
+import Admin from './pages/Admin'
 
 function ProtectedRoute({ children }) {
   const { user } = useAuth()
@@ -27,8 +30,11 @@ function AppRoutes() {
         <Route path="/shop" element={<Shop />} />
         <Route path="/bouquets" element={<Bouquets />} />
         <Route path="/occasions" element={<Occasions />} />
+        <Route path="/subscriptions" element={<Subscriptions />} />
+        <Route path="/about" element={<About />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/admin" element={<Admin />} />
         <Route path="/checkout" element={
           <ProtectedRoute>
             <Checkout />
