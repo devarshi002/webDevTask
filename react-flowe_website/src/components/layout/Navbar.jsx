@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ShoppingBag, Search, LogOut, User, Menu, X } from "lucide-react";
+import { ShoppingBag, Search, LogOut, User, Menu, X, Package } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../../cart/CartContext";
 import { useAuth } from "../../auth/AuthContext";
@@ -85,6 +85,14 @@ export default function Navbar() {
                     flex items-center justify-center">
                     <User size={14} strokeWidth={1.5} className="text-[#8b5e52]" />
                   </div>
+                  <Link
+                    to="/my-orders"
+                    className="flex items-center gap-1.5 text-xs tracking-wide
+                      text-[#8b5e52] hover:text-[#c4957a] transition-colors"
+                  >
+                    <Package size={14} strokeWidth={1.5} />
+                    My Orders
+                  </Link>
                   <button
                     onClick={handleSignOut}
                     className="flex items-center gap-1.5 text-xs tracking-wide
@@ -106,7 +114,9 @@ export default function Navbar() {
                 onClick={() => setMenuOpen(!menuOpen)}
                 className="md:hidden text-[#8b5e52] hover:text-[#c4957a] transition-colors"
               >
-                {menuOpen ? <X size={20} strokeWidth={1.5} /> : <Menu size={20} strokeWidth={1.5} />}
+                {menuOpen
+                  ? <X size={20} strokeWidth={1.5} />
+                  : <Menu size={20} strokeWidth={1.5} />}
               </button>
             </div>
           </div>
@@ -126,16 +136,27 @@ export default function Navbar() {
                 {label}
               </Link>
             ))}
-            <div className="border-t border-[#e8d5c4] pt-3">
+            <div className="border-t border-[#e8d5c4] pt-3 flex flex-col gap-3">
               {user ? (
-                <button
-                  onClick={() => { handleSignOut(); setMenuOpen(false); }}
-                  className="flex items-center gap-2 text-xs tracking-wide
-                    text-[#8b5e52] hover:text-[#c4957a] transition-colors"
-                >
-                  <LogOut size={14} strokeWidth={1.5} />
-                  Sign out
-                </button>
+                <>
+                  <Link
+                    to="/my-orders"
+                    onClick={() => setMenuOpen(false)}
+                    className="flex items-center gap-2 text-xs tracking-wide
+                      text-[#8b5e52] hover:text-[#c4957a] transition-colors"
+                  >
+                    <Package size={14} strokeWidth={1.5} />
+                    My Orders
+                  </Link>
+                  <button
+                    onClick={() => { handleSignOut(); setMenuOpen(false); }}
+                    className="flex items-center gap-2 text-xs tracking-wide
+                      text-[#8b5e52] hover:text-[#c4957a] transition-colors"
+                  >
+                    <LogOut size={14} strokeWidth={1.5} />
+                    Sign out
+                  </button>
+                </>
               ) : (
                 <Link
                   to="/login"

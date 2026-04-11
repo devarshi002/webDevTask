@@ -55,7 +55,15 @@ export default function CartDrawer({ isOpen, onClose }) {
             <div className="flex-1 overflow-y-auto px-6 py-4 flex flex-col gap-4">
               {cartItems.map(item => (
                 <div key={item.id} className="flex gap-4 bg-white border border-[#e8d5c4] rounded-md p-3">
-                  <div className="w-[64px] h-[64px] rounded-sm shrink-0" style={{ background: item.bg }} />
+
+                  {/* ✅ Product image */}
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="w-[64px] h-[64px] rounded-sm shrink-0 object-cover"
+                  />
+
+                  {/* Info */}
                   <div className="flex-1 min-w-0">
                     <p className="text-[10px] tracking-[0.12em] uppercase text-[#b09088] mb-0.5">{item.tag}</p>
                     <p className="font-[Cormorant_Garamond] text-[17px] text-[#5c3d35] leading-tight truncate">
@@ -63,6 +71,8 @@ export default function CartDrawer({ isOpen, onClose }) {
                     </p>
                     <p className="font-serif text-[15px] text-[#c4957a] mt-1">₹{item.price}</p>
                   </div>
+
+                  {/* Qty + Remove */}
                   <div className="flex flex-col items-end justify-between shrink-0">
                     <button onClick={() => removeFromCart(item.id)}
                       className="text-[#d4b5a8] hover:text-[#c4957a] transition-colors">

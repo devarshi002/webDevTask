@@ -6,14 +6,7 @@ export default function ProductCard({ product }) {
   const [wished, setWished] = useState(false);
   const [added, setAdded] = useState(false);
   const { addToCart } = useCart();
-  const { name, tag, desc, price, oldPrice, rating, reviews, badge, bg } = product;
-
-  const flowerImages = {
-  rose: "/images/rose.jpg",
-  wildflower: "/images/wildflowers.jpg",
-  lavender: "/images/lavender.jpg",
-  tulip: "/images/tulip.jpg",
-};
+  const { name, tag, desc, price, oldPrice, rating, reviews, badge, bg, image } = product;
 
   const handleAdd = () => {
     addToCart(product);
@@ -29,11 +22,11 @@ export default function ProductCard({ product }) {
       {/* Image area */}
       <div className="relative h-[200px] md:h-[240px] overflow-hidden" style={{ background: bg }}>
         <img
-  src={flowerImages[product.flowerType]}
-  alt={product.name}
-  loading="lazy"
-  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-/>
+          src={image}
+          alt={name}
+          loading="lazy"
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+        />
 
         {/* Badge */}
         {badge && (
@@ -44,7 +37,6 @@ export default function ProductCard({ product }) {
             ${badge.includes('%') ? 'bg-[#5c3d35] text-[#f5e6de]' : ''}`}>
             {badge}
           </span>
-          
         )}
 
         {/* Wishlist */}

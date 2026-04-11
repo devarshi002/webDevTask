@@ -12,6 +12,7 @@ export const products = [
     badge: "Bestseller",
     bg: "#fce8e0",
     flowerType: "rose",
+    image: "/images/rose.jpg",
   },
   {
     id: 2,
@@ -26,6 +27,7 @@ export const products = [
     badge: "New",
     bg: "#e8f0e4",
     flowerType: "wildflower",
+    image: "/images/wildflowers.jpg",
   },
   {
     id: 3,
@@ -40,6 +42,7 @@ export const products = [
     badge: "20% Off",
     bg: "#f0e4f4",
     flowerType: "lavender",
+    image: "/images/lavender.jpg",
   },
   {
     id: 4,
@@ -54,6 +57,7 @@ export const products = [
     badge: "New",
     bg: "#fce8f0",
     flowerType: "rose",
+    image: "/images/rose.jpg",
   },
   {
     id: 5,
@@ -68,6 +72,7 @@ export const products = [
     badge: null,
     bg: "#fff8e4",
     flowerType: "tulip",
+    image: "/images/tulip.jpg",
   },
   {
     id: 6,
@@ -82,5 +87,6 @@ export const products = [
     badge: "Bestseller",
     bg: "#e8f4f8",
     flowerType: "wildflower",
+    image: "/images/wildflowers.jpg",
   },
 ];
