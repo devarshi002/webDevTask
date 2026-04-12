@@ -57,7 +57,7 @@ export const products = [
     badge: "New",
     bg: "#fce8f0",
     flowerType: "rose",
-    image: "/images/rose.jpg",
+    image: "/images/pinkrose.jpg",
   },
   {
     id: 5,
