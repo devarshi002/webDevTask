@@ -1,8 +1,15 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const shopLinks = ['All Flowers','Bouquets','Seasonal Picks','Subscriptions','Gift Sets','Corporate Orders'];
-const helpLinks = ['Delivery Info','Track My Order','Returns & Refunds','Care Guide','FAQs','Contact Us'];
-
+const helpLinks = [
+  { label: 'Delivery Info', path: '/delivery-info' },
+  { label: 'Track My Order', path: '/my-orders' },
+  { label: 'Returns & Refunds', path: '/returns' },
+  { label: 'Care Guide', path: '/care-guide' },
+  { label: 'FAQs', path: '/faqs' },
+  { label: 'Contact Us', path: '/contact' },
+];
 export default function Footer() {
   const [email, setEmail] = useState('');
 
@@ -58,12 +65,12 @@ export default function Footer() {
         <div>
           <p className="text-[11px] font-medium tracking-[0.18em] uppercase text-[#f5e6de] mb-4 md:mb-5">Help</p>
           <ul className="flex flex-col gap-2.5 md:gap-3">
-            {helpLinks.map(l => (
-              <li key={l}>
-                <a href="#" className="text-[12px] md:text-[13px] font-light text-[#a08878]
-                  hover:text-[#c4957a] transition-colors">{l}</a>
-              </li>
-            ))}
+            {helpLinks.map(({ label, path }) => (
+  <li key={label}>
+    <Link to={path} className="text-[12px] md:text-[13px] font-light text-[#a08878]
+      hover:text-[#c4957a] transition-colors">{label}</Link>
+  </li>
+))}
           </ul>
         </div>
 
