@@ -1,13 +1,60 @@
 // src/cart/CartContext.jsx
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect, useCallback } from "react";
 
 const CartContext = createContext();
+const CART_KEY = "petal_cart";
 
 export function CartProvider({ children }) {
-  const [cartItems, setCartItems] = useState([]);
 
-  // Add item or increase quantity if already exists
-  const addToCart = (product) => {
+  // ✅ Load from localStorage on first render
+  const [cartItems, setCartItems] = useState(() => {
+    try {
+      const saved = localStorage.getItem(CART_KEY);
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  // ✅ Save to localStorage on every cart change
+  useEffect(() => {
+    localStorage.setItem(CART_KEY, JSON.stringify(cartItems));
+  }, [cartItems]);
+
+  // ✅ Sync across tabs — storage event fires in OTHER tabs
+  useEffect(() => {
+    const handleStorageChange = (e) => {
+      if (e.key === CART_KEY) {
+        try {
+          const newCart = e.newValue ? JSON.parse(e.newValue) : [];
+          setCartItems(newCart);
+        } catch {
+          setCartItems([]);
+        }
+      }
+    };
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
+  }, []);
+
+  // ✅ Sync when switching back to tab
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        try {
+          const saved = localStorage.getItem(CART_KEY);
+          setCartItems(saved ? JSON.parse(saved) : []);
+        } catch {
+          setCartItems([]);
+        }
+      }
+    };
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
+  }, []);
+
+  // Add item or increase quantity
+  const addToCart = useCallback((product) => {
     setCartItems(prev => {
       const exists = prev.find(item => item.id === product.id);
       if (exists) {
@@ -19,24 +66,24 @@ export function CartProvider({ children }) {
       }
       return [...prev, { ...product, quantity: 1 }];
     });
-  };
+  }, []);
 
   // Remove item completely
-  const removeFromCart = (id) => {
+  const removeFromCart = useCallback((id) => {
     setCartItems(prev => prev.filter(item => item.id !== id));
-  };
+  }, []);
 
   // Increase quantity
-  const increaseQty = (id) => {
+  const increaseQty = useCallback((id) => {
     setCartItems(prev =>
       prev.map(item =>
         item.id === id ? { ...item, quantity: item.quantity + 1 } : item
       )
     );
-  };
+  }, []);
 
   // Decrease quantity — remove if hits 0
-  const decreaseQty = (id) => {
+  const decreaseQty = useCallback((id) => {
     setCartItems(prev =>
       prev
         .map(item =>
@@ -44,18 +91,16 @@ export function CartProvider({ children }) {
         )
         .filter(item => item.quantity > 0)
     );
-  };
+  }, []);
 
-  // Clear entire cart
-  const clearCart = () => setCartItems([]);
+  // Clear cart + localStorage
+  const clearCart = useCallback(() => {
+    setCartItems([]);
+    localStorage.removeItem(CART_KEY);
+  }, []);
 
-  // Total number of items (for navbar badge)
   const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-
-  // Total price
-  const totalPrice = cartItems.reduce(
-    (sum, item) => sum + item.price * item.quantity, 0
-  );
+  const totalPrice = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   return (
     <CartContext.Provider value={{
@@ -73,7 +118,6 @@ export function CartProvider({ children }) {
   );
 }
 
-// Custom hook for easy use anywhere
 export function useCart() {
   return useContext(CartContext);
 }
