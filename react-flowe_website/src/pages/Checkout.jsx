@@ -1,29 +1,50 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useCart } from "../cart/CartContext";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
 import emailjs from "@emailjs/browser";
+
+const FORM_KEY = "petal_checkout_form";
 
 export default function Checkout() {
   const { cartItems, totalPrice, clearCart } = useCart();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    address: "",
-    city: "",
-    pincode: "",
+  // ✅ Load from sessionStorage on refresh
+  const [form, setForm] = useState(() => {
+    try {
+      const saved = sessionStorage.getItem(FORM_KEY);
+      return saved ? JSON.parse(saved) : {
+        name: "",
+        email: "",
+        phone: "",
+        address: "",
+        city: "",
+        pincode: "",
+      };
+    } catch {
+      return {
+        name: "",
+        email: "",
+        phone: "",
+        address: "",
+        city: "",
+        pincode: "",
+      };
+    }
   });
+
+  // ✅ Save to sessionStorage on every keystroke
+  useEffect(() => {
+    sessionStorage.setItem(FORM_KEY, JSON.stringify(form));
+  }, [form]);
 
   const handleChange = (e) =>
     setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
 
   const finalTotal = totalPrice >= 999 ? totalPrice : totalPrice + 99;
 
-  // ✅ EMAIL FUNCTION (unchanged)
   const sendConfirmationEmail = async (paymentId) => {
     const itemsList = cartItems
       .map(
@@ -54,7 +75,6 @@ export default function Checkout() {
     }
   };
 
-  // ✅ UPDATED PAYMENT FUNCTION (ONLY THIS CHANGED)
   const handlePayment = async () => {
     if (!form.name || !form.email || !form.phone || !form.address) {
       alert("Please fill all required fields");
@@ -62,12 +82,8 @@ export default function Checkout() {
     }
 
     setLoading(true);
-    console.log("TOTAL PRICE:", totalPrice);
-    console.log("FINAL TOTAL:", finalTotal);
-    console.log("SENDING TO BACKEND:", finalTotal * 100);
 
     try {
-      // 🔥 1. Call Supabase function
       const res = await fetch(import.meta.env.VITE_SUPABASE_FUNCTION_URL, {
         method: "POST",
         headers: {
@@ -81,25 +97,20 @@ export default function Checkout() {
       }
 
       const order = await res.json();
-      console.log("ORDER FROM BACKEND:", order);
 
-      // 🔥 2. Razorpay config
       const options = {
         key: import.meta.env.VITE_RAZORPAY_KEY_ID,
         amount: order.amount,
         currency: order.currency,
         order_id: order.id,
-
         name: "Petal & Co.",
         description: "Fresh Flowers Order",
-
         method: {
           upi: true,
           card: true,
           netbanking: true,
           wallet: true,
         },
-
         config: {
           display: {
             blocks: {
@@ -112,16 +123,13 @@ export default function Checkout() {
             preferences: { show_default_blocks: true },
           },
         },
-
         prefill: {
           name: form.name,
           email: form.email,
           contact: form.phone,
         },
-
         theme: { color: "#c4957a" },
 
-        // ✅ PAYMENT SUCCESS
         handler: async function (response) {
           try {
             const { error } = await supabase.from("orders").insert([
@@ -145,8 +153,10 @@ export default function Checkout() {
               return;
             }
 
-            // ✅ send email
             await sendConfirmationEmail(response.razorpay_payment_id);
+
+            // ✅ Clear form after successful payment
+            sessionStorage.removeItem(FORM_KEY);
 
             clearCart();
 
@@ -173,7 +183,6 @@ export default function Checkout() {
 
       const rzp = new window.Razorpay(options);
 
-      // ❌ PAYMENT FAILED
       rzp.on("payment.failed", (r) => {
         setLoading(false);
         alert(`Payment failed: ${r.error.description}`);
@@ -186,8 +195,6 @@ export default function Checkout() {
       setLoading(false);
     }
   };
-
-  // ⚡ EVERYTHING BELOW IS SAME (NO UI CHANGE)
 
   if (cartItems.length === 0) {
     return (
@@ -254,11 +261,6 @@ export default function Checkout() {
             {cartItems.map((item) => (
               <div key={item.id} className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  {/* <div
-                    className="w-10 h-10 rounded-sm shrink-0"
-                    style={{ background: item.bg }}
-                  /> */}
-
                   <img
                     src={item.image}
                     alt={item.name}
@@ -296,14 +298,17 @@ export default function Checkout() {
             onClick={handlePayment}
             disabled={loading}
             className={`w-full text-xs tracking-widest uppercase text-white py-4 rounded-sm transition-colors
-              ${
-                loading
-                  ? "bg-[#d4b5a8] cursor-not-allowed"
-                  : "bg-[#c4957a] hover:bg-[#b0806a]"
+              ${loading
+                ? "bg-[#d4b5a8] cursor-not-allowed"
+                : "bg-[#c4957a] hover:bg-[#b0806a]"
               }`}
           >
             {loading ? "Processing..." : `Pay ₹${finalTotal}`}
           </button>
+
+          <p className="text-[11px] text-[#b09088] text-center mt-3 tracking-wide">
+            🔒 Secured by Razorpay · UPI, Cards, Netbanking, Wallets accepted
+          </p>
         </div>
       </div>
     </div>
